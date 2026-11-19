@@ -6,10 +6,10 @@ Jedno miejsce dla aplikacji INTER-BOX: wspólny wygląd (INTER-BOX UI), aplikacj
 
 | Aplikacja | Folder | Adres | Dla kogo |
 |---|---|---|---|
-| **Awizacje** — rezerwacja okien na rampie | `awizacje/` | https://jziebainterbox.github.io/interbox-apki/awizacje/ | biuro, dostawcy |
-| **Planer produkcji** — plan pracy maszyn | `planer/` | https://jziebainterbox.github.io/interbox-apki/planer/ | planiści |
-| **Plan produkcji** — podgląd planu (TV, sprzedaż) | `podglad/` | https://jziebainterbox.github.io/interbox-apki/podglad/ | TV na hali, sprzedaż |
-| **Wzornik INTER-BOX UI** — katalog wyglądu | `katalog/` | https://jziebainterbox.github.io/interbox-apki/katalog/ | budowa nowych aplikacji |
+| **Awizacje** — rezerwacja okien na rampie | `awizacje/` | https://jziebainterbox.github.io/interbox-apps/awizacje/ | biuro, dostawcy |
+| **Planer produkcji** — plan pracy maszyn | `planer/` | https://jziebainterbox.github.io/interbox-apps/planer/ | planiści |
+| **Plan produkcji** — podgląd planu (TV, sprzedaż) | `podglad/` | https://jziebainterbox.github.io/interbox-apps/podglad/ | TV na hali, sprzedaż |
+| **Wzornik INTER-BOX UI** — katalog wyglądu | `katalog/` | https://jziebainterbox.github.io/interbox-apps/katalog/ | budowa nowych aplikacji |
 
 Wszystkie aplikacje korzystają z jednej bazy Supabase (projekt „Awizacje Inter-Box”) i jednego konta użytkownika.
 Dane są w bazie, za logowaniem — w tym repozytorium nie ma danych firmy ani haseł (jest tylko publiczny klucz Supabase, który z założenia jest jawny; dostępu pilnują zabezpieczenia RLS w bazie).

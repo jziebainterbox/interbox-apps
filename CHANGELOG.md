@@ -1,7 +1,7 @@
 # Historia zmian
 
 ## 2026-11-19 — wspólne repozytorium
-- Awizacje, Planer produkcji i podgląd planu przeniesione do jednego repozytorium `interbox-apki`.
+- Awizacje, Planer produkcji i podgląd planu przeniesione do jednego repozytorium `interbox-apps`.
 - Wzornik **INTER-BOX UI v1** (`wspolne/interbox-ui-v1.css`, `katalog/`).
 - Struktura bazy w `sql/` (bez danych firmy).
 

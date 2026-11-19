@@ -1,0 +1,335 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Wzornik INTER-BOX UI</title>
+<link rel="stylesheet" href="../wspolne/interbox-ui-v1.css">
+<style>
+/* tylko dla katalogu (nie należy do INTER-BOX UI) */
+.kat{display:grid;grid-template-columns:230px minmax(0,1fr);gap:0;align-items:start}
+.kat-menu{position:sticky;top:0;max-height:100vh;overflow:auto;padding:22px 0 40px var(--ib-margines);font-size:14px}
+.kat-menu a{display:block;padding:5px 0;color:var(--ib-atrament-2);text-decoration:none}
+.kat-menu a:hover{color:var(--ib-akcent)}
+.kat-menu .ib-eyebrow{margin:14px 0 4px}
+.kat-tresc{padding:22px var(--ib-margines) 80px;min-width:0}
+.kat-sek{margin:0 0 56px;scroll-margin-top:16px}
+.kat-sek>h2{padding-top:14px;border-top:2px solid var(--ib-atrament);margin-bottom:6px}
+.kat-sek>h2 .nr{color:var(--ib-akcent);margin-right:8px}
+.kat-opis{color:var(--ib-atrament-2);max-width:75ch;margin:4px 0 14px}
+.przyklad{background:var(--ib-papier);border:1px solid var(--ib-linia);padding:20px;position:relative}
+.przyklad.szare{background:var(--ib-tlo)}
+.kod{margin:0 0 22px;background:var(--ib-atrament);color:#ecebe4;font:12.5px/1.55 var(--ib-mono);padding:12px 14px;overflow:auto;max-height:260px;white-space:pre}
+.kod-pasek{display:flex;justify-content:space-between;align-items:center;background:#2a2927;color:#b9b6ae;font-size:11px;letter-spacing:.08em;text-transform:uppercase;padding:5px 14px}
+.kod-pasek button{background:none;border:1px solid #55534e;color:#ecebe4;font-size:11px;padding:3px 9px;cursor:pointer}
+.probki{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px}
+.probka{border:1px solid var(--ib-linia);background:#fff}
+.probka div{height:64px}
+.probka p{margin:0;padding:8px 10px;font-size:12.5px}
+.probka code{font:12px var(--ib-mono);color:var(--ib-atrament-2)}
+.ramka-ekranu{border:1px solid var(--ib-linia);overflow:hidden;background:var(--ib-tlo)}
+.ramka-ekranu .ib-logowanie{min-height:560px}
+.zasady li{margin:6px 0}
+@media (max-width:900px){.kat{grid-template-columns:1fr}.kat-menu{display:none}}
+</style>
+</head>
+<body class="ib">
+
+<header class="ib-top">
+  <div class="ib-marka-wrap">
+    <img class="ib-top-logo" src="../wspolne/logo-czarne.png" alt="INTER-BOX">
+    <div class="ib-marka">Wzornik<small>INTER-BOX UI · wersja 1</small></div>
+  </div>
+  <div class="ib-kto"><span class="ib-status ib-ok"><i></i>Wspólny wygląd wszystkich aplikacji</span></div>
+</header>
+<nav class="ib-zakladki"><a class="ib-akt" href="#start">Katalog komponentów</a><a href="#zasady">Zasady dla nowej aplikacji</a></nav>
+
+<div class="kat">
+<nav class="kat-menu">
+  <div class="ib-eyebrow">Podstawy</div>
+  <a href="#start">Jak używać</a><a href="#kolory">Kolory</a><a href="#typo">Typografia</a>
+  <div class="ib-eyebrow">Elementy</div>
+  <a href="#przyciski">Przyciski</a><a href="#formularze">Formularze</a><a href="#komunikaty">Komunikaty</a><a href="#plakietki">Plakietki i statusy</a>
+  <div class="ib-eyebrow">Ekrany</div>
+  <a href="#logowanie">Ekran logowania</a><a href="#szkielet">Szkielet aplikacji</a><a href="#pasek">Pasek okresu</a><a href="#tabela">Tabela</a><a href="#karty">Karty z liczbami</a><a href="#okna">Szuflada i okno</a><a href="#bloki">Bloki na osi czasu</a><a href="#tv">Duży ekran (TV)</a>
+  <div class="ib-eyebrow">Reguły</div>
+  <a href="#zasady">Zasady dla nowej aplikacji</a>
+</nav>
+
+<main class="kat-tresc">
+
+<section class="kat-sek" id="start">
+  <h2><span class="nr">0</span>Jak używać</h2>
+  <p class="kat-opis">Każda aplikacja INTER-BOX dołącza jeden plik stylu i dostaje klasę <code>ib</code> na <code>&lt;body&gt;</code>. Dalej używa wyłącznie elementów z tego katalogu. Własne style aplikacji (np. oś czasu planera) korzystają z tych samych tokenów kolorów <code>var(--ib-…)</code>.</p>
+  <div class="kod-pasek"><span>początek każdej aplikacji</span></div>
+  <pre class="kod">&lt;link rel="stylesheet" href="../wspolne/interbox-ui-v1.css"&gt;
+&lt;body class="ib"&gt;           &lt;!-- na TV / hali: class="ib ib-tv" --&gt;</pre>
+</section>
+
+<section class="kat-sek" id="kolory">
+  <h2><span class="nr">1</span>Kolory</h2>
+  <p class="kat-opis">Grafit + ciepła szarość + pomarańczowy akcent INTER-BOX. Pomarańczowy oznacza akcję główną i „dziś”; zielony = gotowe / ONLINE; czerwony = błąd, usuwanie, blokada. Kolory firm/dostawców to osobna paleta 12 kolorów (jak w Awizacjach).</p>
+  <div class="probki" id="probki"></div>
+</section>
+
+<section class="kat-sek" id="typo">
+  <h2><span class="nr">2</span>Typografia</h2>
+  <p class="kat-opis">Czcionka systemowa Segoe UI. Tekst podstawowy 15 px (czytelny dla osób 50+). Duże, grube nagłówki z ciasnym odstępem liter — to znak rozpoznawczy stylu.</p>
+  <div class="przyklad">
+    <div class="ib-eyebrow">Eyebrow — mała etykieta nad tytułem</div>
+    <h1 style="margin:6px 0 10px">Nagłówek h1 · 32 px</h1>
+    <h2 style="margin-bottom:8px">Nagłówek h2 · 22 px</h2>
+    <h3 style="margin-bottom:8px">Nagłówek h3 · 17 px</h3>
+    <p style="margin:0 0 6px">Tekst podstawowy 15 px — opis, treść formularza, komórki tabeli.</p>
+    <p class="ib-drobne" style="margin:0">Tekst drobny 12 px — podpowiedzi, stopka, „kto i kiedy zmienił”.</p>
+  </div>
+</section>
+
+<section class="kat-sek" id="przyciski">
+  <h2><span class="nr">3</span>Przyciski</h2>
+  <p class="kat-opis">Jeden przycisk akcentowy (pomarańczowy) na ekran — główna akcja („Zapisz”, „Zaloguj”). Ciemny = zwykła akcja, jasny = poboczna („Anuluj”), czerwony = nieodwracalna („Usuń”).</p>
+  <div class="przyklad" data-kod>
+    <div class="ib-akcje">
+      <button class="ib-btn ib-akc">Zapisz</button>
+      <button class="ib-btn">Dodaj</button>
+      <button class="ib-btn ib-jasny">Anuluj</button>
+      <button class="ib-btn ib-zly">Usuń</button>
+      <button class="ib-btn ib-ok">Zrealizowane</button>
+      <button class="ib-btn ib-maly">Mały</button>
+      <button class="ib-btn" disabled>Nieaktywny</button>
+      <button class="ib-lnk">Link tekstowy</button>
+      <button class="ib-lnk ib-zly">Usuń (link)</button>
+    </div>
+  </div>
+</section>
+
+<section class="kat-sek" id="formularze">
+  <h2><span class="nr">4</span>Formularze</h2>
+  <p class="kat-opis">Etykieta nad polem (mała, szara), pole o wysokości 42 px, pomarańczowa obwódka po kliknięciu. Dwa pola obok siebie: <code>ib-rzad2</code>; wiele pól: <code>ib-siatka-pol</code>.</p>
+  <div class="przyklad" data-kod>
+    <div class="ib-rzad2">
+      <label class="ib-pole"><span>Nr rejestracyjny *</span><input placeholder="np. WOS 12345"></label>
+      <label class="ib-pole"><span>Maszyna</span><select><option>Curioni</option><option>Klett</option></select></label>
+    </div>
+    <label class="ib-pole"><span>Uwagi</span><textarea placeholder="Opcjonalnie"></textarea></label>
+    <div class="ib-pole"><span class="ib-et">Rodzaj</span>
+      <div class="ib-seg" style="max-width:420px"><button class="ib-akt">Dostawa do nas</button><button>Odbiór od nas</button></div>
+    </div>
+    <div class="ib-pole"><span class="ib-et">Dni</span>
+      <div class="ib-wybor"><label><input type="checkbox" checked> poniedziałek</label><label><input type="checkbox" checked> wtorek</label><label><input type="checkbox"> sobota</label></div>
+    </div>
+  </div>
+</section>
+
+<section class="kat-sek" id="komunikaty">
+  <h2><span class="nr">5</span>Komunikaty</h2>
+  <p class="kat-opis">Pasek z kolorową krawędzią nad formularzem lub listą. Po zapisie — krótkie powiadomienie (toast) na dole ekranu.</p>
+  <div class="przyklad" data-kod>
+    <div class="ib-komunikat">Ten dzień jest wolny – nie można wpisać awizacji.</div>
+    <div class="ib-komunikat ib-info">Awizacja jest odwołana. Możesz ją przywrócić, jeśli okno jest wolne.</div>
+    <div class="ib-komunikat ib-ok">Zapisano. Plan jest widoczny na TV.</div>
+    <div class="ib-komunikat ib-uwaga" style="margin-bottom:0">Brak połączenia — dane z 10:45.</div>
+  </div>
+  <p><button class="ib-btn ib-jasny ib-maly" id="pokazToast">Pokaż powiadomienie</button></p>
+</section>
+
+<section class="kat-sek" id="plakietki">
+  <h2><span class="nr">6</span>Plakietki i statusy</h2>
+  <p class="kat-opis">Plakietka rodzaju (na kolorowym tle), status z kropką (ONLINE/OFFLINE, stan połączenia), tag „demo”, chipy do usuwania, kolor dostawcy, znak „zrealizowane”.</p>
+  <div class="przyklad szare" data-kod>
+    <div class="ib-akcje">
+      <span style="background:#2F6FDE;padding:8px 10px"><i class="ib-pill"><span class="ib-str">↓</span>DOSTAWA</i></span>
+      <span style="background:#E0483A;padding:8px 10px"><i class="ib-pill"><span class="ib-str">↑</span>ODBIÓR</i></span>
+      <span class="ib-status ib-ok"><i></i>ONLINE</span>
+      <span class="ib-status"><i></i>OFFLINE</span>
+      <span class="ib-status ib-blad"><i></i>Brak połączenia</span>
+      <span>Awizacje<span class="ib-tag">demo</span></span>
+      <span class="ib-chip">wt 24.11 · 15:00–15:30<button aria-label="Usuń">×</button></span>
+      <span><span class="ib-kolor" style="background:#1E9E6A"></span>Auto-Kurier</span>
+      <i class="ib-znak-ok">✓</i>
+    </div>
+  </div>
+</section>
+
+<section class="kat-sek" id="logowanie">
+  <h2><span class="nr">7</span>Ekran logowania</h2>
+  <p class="kat-opis">Identyczny w każdej aplikacji: z lewej ciemny panel z białym logo, nazwą aplikacji, jednym zdaniem opisu i mozaiką; z prawej formularz. Zmienia się tylko nazwa, opis i dopisek pod formularzem.</p>
+  <div class="ramka-ekranu" data-kod>
+    <div class="ib-logowanie">
+      <section class="ib-log-lewa">
+        <div>
+          <img class="ib-log-logo" src="../wspolne/logo-biale.png" alt="INTER-BOX">
+          <h1>Nazwa aplikacji</h1>
+          <p class="ib-log-lead">Jedno zdanie: do czego służy ta aplikacja.</p>
+        </div>
+        <div class="ib-mozaika" aria-hidden="true"></div>
+      </section>
+      <section class="ib-log-prawa">
+        <p class="ib-log-laduje">Łączenie…</p>
+        <form class="ib-log-form" onsubmit="return false">
+          <h2>Zaloguj się</h2>
+          <label class="ib-pole"><span>Login</span><input autocomplete="off"></label>
+          <label class="ib-pole"><span>Hasło</span><input type="password" autocomplete="off"></label>
+          <button class="ib-btn ib-akc ib-pelny">Zaloguj</button>
+          <p class="ib-log-dopisek">Konto jest to samo we wszystkich aplikacjach INTER-BOX. Dostęp nadaje administrator.</p>
+        </form>
+      </section>
+    </div>
+  </div>
+</section>
+
+<section class="kat-sek" id="szkielet">
+  <h2><span class="nr">8</span>Szkielet aplikacji</h2>
+  <p class="kat-opis">Nagłówek: logo, kreska, nazwa aplikacji i podtytuł; z prawej użytkownik, status ONLINE, „Zmień hasło”, „Wyloguj”. Pod spodem zakładki (aktywna podkreślona na pomarańczowo), treść i stopka z wersją.</p>
+  <div class="ramka-ekranu" data-kod>
+    <header class="ib-top">
+      <div class="ib-marka-wrap"><img class="ib-top-logo" src="../wspolne/logo-czarne.png" alt="INTER-BOX"><div class="ib-marka">Nazwa aplikacji<small>Rampa 1</small></div></div>
+      <div class="ib-kto"><span><b>Jarosław Zięba</b> · administrator</span><span class="ib-status ib-ok"><i></i>ONLINE</span><button class="ib-lnk">Zmień hasło</button><button class="ib-lnk">Wyloguj</button></div>
+    </header>
+    <nav class="ib-zakladki"><button class="ib-akt">Widok główny</button><button>Lista</button><button>Ustawienia</button></nav>
+    <main class="ib-tresc"><p style="margin:0">Treść aplikacji…</p></main>
+    <div class="ib-stopka">Nazwa aplikacji v1.0 · baza stmmmoyfbsvldhrndbyc.supabase.co</div>
+  </div>
+</section>
+
+<section class="kat-sek" id="pasek">
+  <h2><span class="nr">9</span>Pasek okresu i legenda</h2>
+  <p class="kat-opis">Duży tytuł okresu (tydzień, dzień, miesiąc), przyciski ← Dziś →, a z prawej legenda kolorów.</p>
+  <div class="przyklad" data-kod>
+    <div class="ib-pasek" style="margin:0">
+      <div class="ib-okres">Tydzień 47<small>16–20 listopada 2026</small></div>
+      <div class="ib-nav"><button aria-label="Poprzedni">←</button><button>Dziś</button><button aria-label="Następny">→</button></div>
+      <div class="ib-legenda"><span><i style="background:#fff"></i>wolne</span><span><i style="background:#2F6FDE;border-color:transparent"></i>TransDemo</span><span><i style="background:#f0eee9"></i>niedostępne</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="kat-sek" id="tabela">
+  <h2><span class="nr">10</span>Tabela</h2>
+  <p class="kat-opis">Nagłówki małymi wersalikami z grubą kreską pod spodem; wiersz grupy (np. dzień), wiersz zrealizowany na zielono, wiersz wyłączony wyblakły. Szeroka tabela w <code>ib-przewin</code> przewija się w bok na telefonie.</p>
+  <div class="przyklad" data-kod>
+    <div class="ib-przewin"><table class="ib-tab">
+      <thead><tr><th>Godz.</th><th>Dostawca</th><th>Nr rej.</th><th class="ib-num">Palety</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr class="ib-grupa"><td colspan="5">Poniedziałek, 16 listopada · 3 auta</td></tr>
+        <tr class="ib-klik ib-zrobione"><td class="ib-nw">07:00–08:00</td><td><span class="ib-kolor" style="background:#E0483A"></span>Spedycja Próbna</td><td><b>WPR 4K217</b></td><td class="ib-num">33</td><td><span class="ib-status ib-ok"><i></i>zrealizowana</span></td></tr>
+        <tr class="ib-klik"><td class="ib-nw">09:30–10:00</td><td><span class="ib-kolor" style="background:#1E9E6A"></span>Auto-Kurier</td><td><b>WOS 12345</b></td><td class="ib-num">6</td><td>aktywna</td></tr>
+        <tr class="ib-wyl"><td class="ib-nw">13:30–14:30</td><td>TransDemo</td><td><b>NOS 2C885</b></td><td class="ib-num">18</td><td>odwołana</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+</section>
+
+<section class="kat-sek" id="karty">
+  <h2><span class="nr">11</span>Karty z liczbami</h2>
+  <p class="kat-opis">Do pulpitów: OEE, awarie, stany magazynów. Mała etykieta, duża liczba, drobny opis pod spodem.</p>
+  <div class="przyklad szare" data-kod>
+    <div class="ib-karty">
+      <div class="ib-karta"><div class="ib-eyebrow">OEE · tydzień 47</div><div class="ib-liczba">61,4 %</div><div class="ib-drobne">+2,1 pp względem tyg. 46</div></div>
+      <div class="ib-karta"><div class="ib-eyebrow">Awarie otwarte</div><div class="ib-liczba" style="color:var(--ib-blad)">4</div><div class="ib-drobne">najstarsza: 2 dni</div></div>
+      <div class="ib-karta"><div class="ib-eyebrow">Magazyn E · zajętość</div><div class="ib-liczba">78 %</div><div class="ib-drobne">212 z 272 miejsc</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="kat-sek" id="okna">
+  <h2><span class="nr">12</span>Szuflada i okno</h2>
+  <p class="kat-opis"><b>Szuflada</b> (z prawej) — szczegóły i edycja pozycji z listy lub siatki (jak awizacja). <b>Okno</b> (na środku, szerokie 680 px) — formularz, który zasłania pracę (jak zadanie w planerze). Zamykają je tylko przyciski, nie kliknięcie w tło.</p>
+  <div class="ib-akcje"><button class="ib-btn" id="otwSzuf">Otwórz szufladę</button><button class="ib-btn" id="otwOkno">Otwórz okno</button></div>
+  <div class="ib-zaslona" id="zaslona"></div>
+  <aside class="ib-szuflada" id="szuflada">
+    <div class="ib-sz-nag"><div class="ib-eyebrow">Awizacja · Rampa 1</div><div class="ib-sz-tytul ib-liczby">07:00–08:00</div><div class="ib-sz-pod">poniedziałek, 16 listopada 2026</div><button class="ib-zamknij" data-zamknij aria-label="Zamknij">×</button></div>
+    <div class="ib-sz-tresc"><label class="ib-pole"><span>Nr rejestracyjny</span><input value="WPR 4K217"></label><div class="ib-meta">Utworzono: 16.11.2026 10:12 · biuro</div></div>
+    <div class="ib-sz-stopka"><button class="ib-btn ib-akc">Zapisz zmiany</button><button class="ib-btn ib-zly">Odwołaj</button><button class="ib-btn ib-jasny" data-zamknij>Zamknij</button></div>
+  </aside>
+  <div class="ib-okno" id="okno">
+    <div class="ib-sz-nag"><div class="ib-eyebrow">Planer produkcji</div><div class="ib-sz-tytul">Nowe zadanie</div></div>
+    <div class="ib-sz-tresc"><div class="ib-rzad2"><label class="ib-pole"><span>Nazwa</span><input></label><label class="ib-pole"><span>Numer zlecenia</span><input></label></div></div>
+    <div class="ib-sz-stopka"><button class="ib-btn ib-akc" data-zamknij>Zapisz</button><button class="ib-btn ib-jasny" data-zamknij>Anuluj</button></div>
+  </div>
+</section>
+
+<section class="kat-sek" id="bloki">
+  <h2><span class="nr">13</span>Bloki na osi czasu</h2>
+  <p class="kat-opis">Wspólny wygląd „klocka” w siatce lub na osi czasu: awizacja, zlecenie produkcyjne, zgłoszenie. Biały tekst na kolorze dostawcy/zlecenia; zrealizowana awizacja — białe pasy, zielona ramka i znak ✓; zakończone zlecenie w planerze — przekreślone i wyszarzone; niedostępny, przerwa i blokada — kreskowane.</p>
+  <div class="przyklad szare" data-kod>
+    <div class="ib-karty">
+      <div class="ib-blok" style="background:#2F6FDE"><div class="ib-b1"><i class="ib-pill"><span class="ib-str">↓</span>DOSTAWA</i> TransDemo</div><div class="ib-b2">WPI 90H11 · 15:30–16:30 · 33 pal.</div></div>
+      <div class="ib-blok ib-zrobiony" style="background:#E0483A"><i class="ib-znak-ok">✓</i><div class="ib-b1">Spedycja Próbna</div><div class="ib-b2">WPR 4K217 · 07:00–08:00</div></div>
+      <div class="ib-blok ib-zakonczony" style="background:#1E9E6A"><div class="ib-b1">Fasonowe 380 07:00–13:00</div><div class="ib-b2">(360 MIN) · zakończone</div></div>
+      <div class="ib-blok ib-niedost"><div class="ib-b1" style="text-shadow:none">Niedostępne</div></div>
+      <div class="ib-blok ib-przerwa"><b>PRZERWA</b> 12:00–12:30 · obiad</div>
+      <div class="ib-blok ib-blokada"><b>ZABLOKOWANE</b> 14:00–17:00 · inwentaryzacja</div>
+    </div>
+  </div>
+</section>
+
+<section class="kat-sek" id="tv">
+  <h2><span class="nr">14</span>Duży ekran (TV, hala)</h2>
+  <p class="kat-opis">Te same komponenty, powiększone o ok. 25 % — wystarczy dopisać <code>ib-tv</code> do <code>&lt;body&gt;</code>. Kolory, układ i logowanie pozostają identyczne.</p>
+  <div class="kod-pasek"><span>przykład</span></div>
+  <pre class="kod">&lt;body class="ib ib-tv"&gt;</pre>
+</section>
+
+<section class="kat-sek" id="zasady">
+  <h2><span class="nr">15</span>Zasady dla nowej aplikacji</h2>
+  <ol class="zasady">
+    <li><b>Start z szablonu</b> — nowa aplikacja to kopia szablonu (logowanie + szkielet), nie pusty plik.</li>
+    <li><b>Tylko komponenty z katalogu.</b> Brakuje czegoś? Najpierw dopisujemy element do INTER-BOX UI i katalogu, potem używamy w aplikacji.</li>
+    <li><b>Kolory tylko z tokenów</b> (<code>var(--ib-…)</code>) — żadnych własnych odcieni w aplikacji. Wyjątek: kolory dostawców/zleceń z palety 12 kolorów.</li>
+    <li><b>Jeden pomarańczowy przycisk na ekran</b> — główna akcja.</li>
+    <li><b>Czytelność 50+:</b> tekst min. 15 px, pola 42 px, ważne informacje (godziny, rodzaj) zawsze widoczne, nie tylko po najechaniu.</li>
+    <li><b>Okna zamykają przyciski</b>, nie kliknięcie w tło. Usuwanie zawsze z potwierdzeniem.</li>
+    <li><b>Nazwa aplikacji</b> = rzeczownik mówiący, co robi (Awizacje, Planer produkcji, Plan produkcji, Awarie maszyn).</li>
+    <li><b>Zmiana wyglądu = nowa wersja pliku</b> (<code>interbox-ui-v2.css</code>); aplikacje przełączamy po kolei, po teście.</li>
+  </ol>
+</section>
+
+</main>
+</div>
+<div class="ib-toast" id="toast" hidden>Zapisano: pon 16.11, 07:00–08:00 · WPR 4K217</div>
+
+<script>
+// próbki kolorów z tokenów
+const KOLORY = [
+  ['--ib-tlo','tło strony'],['--ib-papier','karty, tabele'],['--ib-atrament','tekst, ciemny panel'],['--ib-atrament-2','tekst drugorzędny'],
+  ['--ib-szary','etykiety, opisy'],['--ib-linia','linie'],['--ib-akcent','akcja główna, „dziś”'],['--ib-akcent-jasny','zaznaczenie'],
+  ['--ib-akcent-ciemny','najechanie na akcent'],['--ib-ok','gotowe, ONLINE'],['--ib-blad','błąd, usuwanie'],['--ib-uwaga','ostrzeżenie']
+];
+const cs = getComputedStyle(document.documentElement);
+document.getElementById('probki').innerHTML = KOLORY.map(([t, o]) =>
+  `<div class="probka"><div style="background:var(${t})"></div><p><code>${t}</code><br>${cs.getPropertyValue(t).trim()} · ${o}</p></div>`).join('');
+
+// mozaika jak w Awizacjach
+const WZ = '..o.x...x..o..o..x.oo....x..o.x..oo..x...o..x.o...xx..o..o.x...';
+document.querySelectorAll('.ib-mozaika').forEach(m => m.innerHTML = [...WZ].map(c => `<i class="${c === 'o' ? 'o' : c === 'x' ? 'x' : ''}"></i>`).join(''));
+
+// pod każdym przykładem: jego kod (do skopiowania)
+function wcieciaPoprawne(t) {
+  const linie = t.replace(/^\n+|\s+$/g, '').split('\n');
+  const min = Math.min(...linie.filter(l => l.trim()).map(l => l.match(/^ */)[0].length));
+  return linie.map(l => l.slice(min)).join('\n');
+}
+document.querySelectorAll('[data-kod]').forEach(p => {
+  const kopia = p.cloneNode(true);
+  kopia.querySelectorAll('.ib-mozaika').forEach(m => m.innerHTML = '');
+  const kod = wcieciaPoprawne(kopia.innerHTML.replace(/ data-kod=""/g, ''));
+  const pasek = document.createElement('div');
+  pasek.className = 'kod-pasek';
+  pasek.innerHTML = '<span>kod</span><button type="button">Kopiuj</button>';
+  const pre = document.createElement('pre');
+  pre.className = 'kod'; pre.textContent = kod;
+  pasek.querySelector('button').onclick = async (e) => { try { await navigator.clipboard.writeText(kod); e.target.textContent = 'Skopiowano'; } catch (_) { e.target.textContent = 'Zaznacz i Ctrl+C'; } };
+  p.after(pasek, pre);
+});
+
+// szuflada, okno, toast
+const zas = document.getElementById('zaslona'), sz = document.getElementById('szuflada'), ok = document.getElementById('okno');
+const zamknij = () => [zas, sz, ok].forEach(e => e.classList.remove('ib-otw'));
+document.getElementById('otwSzuf').onclick = () => { zas.classList.add('ib-otw'); sz.classList.add('ib-otw'); };
+document.getElementById('otwOkno').onclick = () => { zas.classList.add('ib-otw'); ok.classList.add('ib-otw'); };
+document.querySelectorAll('[data-zamknij]').forEach(b => b.onclick = zamknij);
+document.getElementById('pokazToast').onclick = () => { const t = document.getElementById('toast'); t.hidden = false; setTimeout(() => t.hidden = true, 2500); };
+</script>
+</body>
+</html>

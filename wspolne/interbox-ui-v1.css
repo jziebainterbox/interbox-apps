@@ -1,0 +1,248 @@
+/* =====================================================================
+   INTER-BOX UI · v1                                    (19.11.2026)
+   Wspólny wygląd wszystkich aplikacji INTER-BOX: logowanie, nagłówek,
+   zakładki, przyciski, formularze, tabele, okna, komunikaty, bloki.
+
+   Zasady:
+   • wszystko ma przedrostek ib- / --ib- (nie gryzie się ze stylami apki),
+   • kolory i rozmiary TYLKO z tokenów poniżej (nie wpisujemy #hex w apce),
+   • zmiana wyglądu = nowa wersja pliku (interbox-ui-v2.css), nie edycja v1.
+   Wzór: Awizacje v1.13. Katalog komponentów: katalog/index.html
+   ===================================================================== */
+
+/* ---------- 1. Tokeny ---------- */
+:root{
+  /* tło i powierzchnie */
+  --ib-tlo:#f5f4f0;          /* tło strony (ciepła szarość) */
+  --ib-papier:#ffffff;       /* karty, tabele, formularze */
+  --ib-tlo-2:#f1f0ec;        /* wyróżnione tło (wiersz dnia, info) */
+  --ib-tlo-3:#faf9f6;        /* najechanie na wiersz */
+  /* tekst */
+  --ib-atrament:#151514;     /* tekst główny, ciemny panel, obramowania akcji */
+  --ib-atrament-2:#3e3d39;   /* tekst drugorzędny */
+  --ib-szary:#7c7a74;        /* opisy, etykiety */
+  --ib-blady:#b9b6ae;        /* nieaktywne, stopka */
+  /* linie */
+  --ib-linia:#d8d5cd;
+  --ib-linia-2:#ebe8e2;
+  /* akcent INTER-BOX */
+  --ib-akcent:#ff5a1f;
+  --ib-akcent-jasny:#fff1ea;
+  --ib-akcent-ciemny:#c2400f;
+  /* znaczenie */
+  --ib-ok:#1d7a3e;   --ib-ok-jasny:#e6f3ea;   --ib-ok-tekst:#14512a;
+  --ib-blad:#b8261b; --ib-blad-jasny:#fbefed; --ib-blad-tekst:#6f1710;
+  --ib-uwaga:#b7791f; --ib-uwaga-jasny:#fdf4e3; --ib-uwaga-tekst:#6b4510;
+  /* typografia — baza 15 px (czytelność dla osób 50+) */
+  --ib-font:"Segoe UI",system-ui,-apple-system,"Helvetica Neue",Roboto,Arial,sans-serif;
+  --ib-mono:Consolas,"Cascadia Mono","Courier New",monospace;
+  --ib-t-xs:12px; --ib-t-s:13px; --ib-t-m:15px; --ib-t-l:17px;
+  --ib-t-h3:17px; --ib-t-h2:22px; --ib-t-h1:32px; --ib-t-wielki:76px;
+  /* odstępy */
+  --ib-o1:4px; --ib-o2:8px; --ib-o3:12px; --ib-o4:16px; --ib-o5:24px; --ib-o6:32px; --ib-o7:48px;
+  /* reszta */
+  --ib-promien:2px;
+  --ib-wys-pola:42px;
+  --ib-margines:28px;        /* boczny margines strony */
+  --ib-cien:0 6px 24px rgba(21,21,20,.16);
+}
+
+/* ---------- 2. Podstawa ---------- */
+/* :where() = zerowa „siła” reguły — komponenty (.ib-btn, .ib-log-lewa h1…) zawsze wygrywają */
+:where(.ib), :where(.ib) *{box-sizing:border-box}
+body.ib{margin:0;background:var(--ib-tlo);color:var(--ib-atrament);font:var(--ib-t-m)/1.5 var(--ib-font);-webkit-font-smoothing:antialiased}
+:where(.ib) :where(button,input,select,textarea){font:inherit;color:inherit}
+:where(.ib) button{cursor:pointer}
+:where(.ib) :where(h1,h2,h3){margin:0;letter-spacing:-.01em;line-height:1.2}
+:where(.ib) h1{font-size:var(--ib-t-h1);font-weight:800;letter-spacing:-.03em}
+:where(.ib) h2{font-size:var(--ib-t-h2);font-weight:700}
+:where(.ib) h3{font-size:var(--ib-t-h3);font-weight:700}
+.ib-eyebrow{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ib-szary);font-weight:600}
+.ib-drobne{font-size:var(--ib-t-xs);color:var(--ib-szary)}
+.ib-liczby{font-variant-numeric:tabular-nums}
+.ib-pusto{padding:40px 0;color:var(--ib-szary);text-align:center}
+
+/* ---------- 3. Przyciski i linki ---------- */
+.ib-btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;border:1px solid var(--ib-atrament);background:var(--ib-atrament);color:#fff;padding:9px 16px;font-weight:600;border-radius:var(--ib-promien);min-height:var(--ib-wys-pola);white-space:nowrap;text-decoration:none}
+.ib-btn:hover{background:#000}
+.ib-btn:focus-visible{outline:3px solid var(--ib-akcent);outline-offset:2px}
+.ib-btn.ib-akc{background:var(--ib-akcent);border-color:var(--ib-akcent)}
+.ib-btn.ib-akc:hover{background:var(--ib-akcent-ciemny);border-color:var(--ib-akcent-ciemny)}
+.ib-btn.ib-jasny{background:transparent;color:var(--ib-atrament)}
+.ib-btn.ib-jasny:hover{background:var(--ib-atrament);color:#fff}
+.ib-btn.ib-zly{background:transparent;color:var(--ib-blad);border-color:var(--ib-blad)}
+.ib-btn.ib-zly:hover{background:var(--ib-blad);color:#fff}
+.ib-btn.ib-ok{background:var(--ib-ok);border-color:var(--ib-ok)}
+.ib-btn.ib-maly{min-height:32px;padding:4px 10px;font-size:var(--ib-t-s)}
+.ib-btn.ib-pelny{width:100%}
+.ib-btn:disabled,.ib-btn[aria-disabled=true]{opacity:.35;cursor:not-allowed;pointer-events:none}
+.ib-lnk{background:none;border:0;padding:0;text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:1px;color:inherit;cursor:pointer}
+.ib-lnk:hover{color:var(--ib-akcent)}
+.ib-lnk.ib-zly{color:var(--ib-blad)}
+.ib-akcje{display:flex;gap:var(--ib-o3);align-items:center;flex-wrap:wrap}
+
+/* ---------- 4. Formularze ---------- */
+.ib-pole{display:block;margin:0 0 14px}
+.ib-pole>span,.ib-et{display:block;font-size:var(--ib-t-xs);color:var(--ib-szary);margin-bottom:5px;font-weight:500}
+:where(.ib) :where(input:not([type=checkbox],[type=radio],[type=color]),select,textarea){width:100%;background:#fff;border:1px solid var(--ib-linia);border-radius:var(--ib-promien);padding:8px 10px;min-height:var(--ib-wys-pola)}
+:where(.ib) textarea{resize:vertical;min-height:70px}
+:where(.ib) :where(input,select,textarea):focus{outline:2px solid var(--ib-akcent);outline-offset:-2px;border-color:var(--ib-akcent)}
+:where(.ib) :where(input,select,textarea):disabled{background:#f3f2ee;color:var(--ib-atrament-2)}
+:where(.ib) :where(input[type=checkbox],input[type=radio]){accent-color:var(--ib-akcent);width:18px;height:18px;margin:0}
+.ib-rzad2{display:grid;grid-template-columns:1fr 1fr;gap:var(--ib-o3)}
+.ib-siatka-pol{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:0 var(--ib-o4)}
+.ib-formularz{background:var(--ib-papier);border:1px solid var(--ib-atrament);padding:18px;margin-bottom:var(--ib-o4)}
+.ib-wybor{display:flex;flex-wrap:wrap;gap:var(--ib-o2)}
+.ib-wybor label{display:flex;align-items:center;gap:7px;border:1px solid var(--ib-linia);background:#fff;padding:8px 12px;cursor:pointer}
+/* przełącznik segmentowy */
+.ib-seg{display:flex;flex-wrap:wrap;border:1px solid var(--ib-atrament);border-radius:var(--ib-promien);overflow:hidden;background:#fff}
+.ib-seg button{flex:1 1 auto;background:#fff;border:0;border-left:1px solid var(--ib-atrament);padding:7px 12px;font-weight:600;min-height:40px}
+.ib-seg button:first-child{border-left:0}
+.ib-seg button.ib-akt{background:var(--ib-atrament);color:#fff}
+.ib-seg button:disabled{color:var(--ib-blady);background:#f6f5f2;cursor:not-allowed}
+
+/* ---------- 5. Komunikaty ---------- */
+.ib-komunikat{padding:10px 12px;border-left:3px solid var(--ib-blad);background:var(--ib-blad-jasny);color:var(--ib-blad-tekst);margin:0 0 14px;font-size:var(--ib-t-s)}
+.ib-komunikat.ib-info{border-color:var(--ib-atrament);background:var(--ib-tlo-2);color:var(--ib-atrament-2)}
+.ib-komunikat.ib-ok{border-color:var(--ib-ok);background:var(--ib-ok-jasny);color:var(--ib-ok-tekst)}
+.ib-komunikat.ib-uwaga{border-color:var(--ib-uwaga);background:var(--ib-uwaga-jasny);color:var(--ib-uwaga-tekst)}
+.ib-toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--ib-atrament);color:#fff;padding:11px 18px;z-index:90;font-size:var(--ib-t-s);max-width:calc(100% - 32px);border-left:4px solid var(--ib-ok)}
+.ib-toast.ib-blad{border-left-color:var(--ib-blad)}
+
+/* ---------- 6. Plakietki i znaczniki ---------- */
+.ib-tag{display:inline-block;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:2px 6px;border:1px solid var(--ib-akcent);color:var(--ib-akcent);vertical-align:3px;margin-left:8px}
+.ib-pill{display:inline-flex;align-items:center;gap:3px;background:rgba(255,255,255,.96);color:#111;font-size:12.5px;font-weight:800;letter-spacing:.04em;padding:1px 7px 1px 5px;border-radius:3px;line-height:20px;font-style:normal}
+.ib-pill .ib-str{font-size:19px;font-weight:900;line-height:1;margin-top:-2px}
+.ib-pill.ib-ciemna{background:var(--ib-atrament);color:#fff}
+.ib-status{display:inline-flex;align-items:center;gap:6px;font-size:11.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ib-szary)}
+.ib-status i{width:9px;height:9px;border-radius:50%;background:#c4c0b7}
+.ib-status.ib-ok{color:var(--ib-ok)} .ib-status.ib-ok i{background:var(--ib-ok);box-shadow:0 0 0 3px rgba(29,122,62,.15)}
+.ib-status.ib-blad{color:var(--ib-blad)} .ib-status.ib-blad i{background:var(--ib-blad)}
+.ib-status.ib-akcent{color:var(--ib-akcent-ciemny)} .ib-status.ib-akcent i{background:var(--ib-akcent)}
+.ib-chipy{display:flex;flex-wrap:wrap;gap:6px}
+.ib-chip{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--ib-linia);background:#fff;padding:4px 4px 4px 10px;font-size:var(--ib-t-s)}
+.ib-chip button{border:0;background:none;width:26px;height:26px;font-size:16px;line-height:1;color:var(--ib-szary)}
+.ib-chip button:hover{color:var(--ib-blad)}
+.ib-kolor{display:inline-block;width:11px;height:11px;margin-right:7px;vertical-align:-1px;border-radius:2px}
+.ib-znak-ok{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:50%;background:var(--ib-ok);color:#fff;font-weight:900;font-size:15px;font-style:normal}
+
+/* ---------- 7. Ekran logowania ---------- */
+.ib-logowanie{min-height:100vh;display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);background:var(--ib-tlo)}
+.ib-log-lewa{background:var(--ib-atrament);color:#fff;padding:48px 56px;display:flex;flex-direction:column;justify-content:space-between;gap:40px}
+.ib-log-logo{display:block;height:84px;width:auto;margin:0 0 72px}
+.ib-log-lewa h1{font-size:var(--ib-t-wielki);line-height:.92;letter-spacing:-.035em;margin:14px 0 18px;font-weight:800;color:#fff}
+.ib-log-lead{font-size:var(--ib-t-l);max-width:30ch;color:rgba(255,255,255,.75);margin:0}
+.ib-mozaika{display:grid;grid-template-columns:repeat(8,1fr);gap:5px;max-width:360px}
+.ib-mozaika i{display:block;height:16px;border:1px solid rgba(255,255,255,.16)}
+.ib-mozaika i.o{background:var(--ib-akcent);border-color:var(--ib-akcent)}
+.ib-mozaika i.x{background:rgba(255,255,255,.88);border-color:transparent}
+.ib-log-prawa{padding:48px 56px;display:flex;align-items:center}
+.ib-log-form{width:100%;max-width:380px}
+.ib-log-form h2{font-size:28px;margin-bottom:22px}
+.ib-log-dopisek{font-size:var(--ib-t-xs);color:var(--ib-szary);margin:22px 0 0;padding-top:16px;border-top:1px solid var(--ib-linia)}
+.ib-log-laduje{display:none;font-size:16px;color:var(--ib-szary)}
+.ib-logowanie.ib-laduje .ib-log-form{display:none}
+.ib-logowanie.ib-laduje .ib-log-laduje{display:block}
+
+/* ---------- 8. Szkielet aplikacji: nagłówek, zakładki, treść, stopka ---------- */
+.ib-top{display:flex;align-items:center;justify-content:space-between;gap:var(--ib-o4);flex-wrap:wrap;padding:20px var(--ib-margines) 0}
+.ib-marka-wrap{display:flex;align-items:center;gap:20px}
+.ib-top-logo{display:block;height:50px;width:auto;padding-right:20px;border-right:1px solid var(--ib-linia)}
+.ib-marka{font-size:30px;font-weight:800;letter-spacing:-.03em;line-height:1}
+.ib-marka small{display:block;font-size:11px;font-weight:600;color:var(--ib-szary);letter-spacing:.12em;text-transform:uppercase;margin-top:7px}
+.ib-kto{display:flex;gap:var(--ib-o4);align-items:center;flex-wrap:wrap;font-size:var(--ib-t-s);color:var(--ib-atrament-2)}
+.ib-zakladki{display:flex;gap:28px;padding:0 var(--ib-margines);border-bottom:1px solid var(--ib-linia);margin-top:18px;overflow-x:auto}
+.ib-zakladki button,.ib-zakladki a{background:none;border:0;padding:12px 0 10px;border-bottom:2px solid transparent;color:var(--ib-szary);font-weight:600;white-space:nowrap;margin-bottom:-1px;text-decoration:none}
+.ib-zakladki button:hover,.ib-zakladki a:hover{color:var(--ib-atrament)}
+.ib-zakladki .ib-akt{color:var(--ib-atrament);border-color:var(--ib-akcent)}
+.ib-tresc{padding:22px var(--ib-margines) 70px}
+.ib-stopka{padding:0 var(--ib-margines) 30px;font-size:var(--ib-t-xs);color:var(--ib-blady)}
+
+/* pasek okresu: tytuł + ← Dziś → */
+.ib-pasek{display:flex;align-items:flex-end;gap:14px 22px;flex-wrap:wrap;margin-bottom:12px}
+.ib-okres{font-size:36px;font-weight:800;letter-spacing:-.03em;line-height:1}
+.ib-okres small{display:block;font-size:14px;font-weight:500;color:var(--ib-szary);letter-spacing:0;margin-top:6px}
+.ib-nav{display:flex}
+.ib-nav button{background:#fff;border:1px solid var(--ib-atrament);min-width:42px;height:38px;padding:0 12px;font-weight:600;margin-left:-1px}
+.ib-nav button:first-child{margin-left:0}
+.ib-nav button:hover{background:var(--ib-atrament);color:#fff}
+.ib-legenda{display:flex;gap:6px 16px;flex-wrap:wrap;font-size:var(--ib-t-m);color:var(--ib-atrament-2);margin-left:auto}
+.ib-legenda span{white-space:nowrap}
+.ib-legenda i{display:inline-block;width:20px;height:15px;vertical-align:-2px;margin-right:6px;border:1px solid var(--ib-linia)}
+
+/* ---------- 9. Sekcje i tabele ---------- */
+.ib-sekcja{margin-bottom:38px}
+.ib-sek-nag{display:flex;align-items:center;justify-content:space-between;gap:var(--ib-o3);flex-wrap:wrap;margin-bottom:var(--ib-o3)}
+.ib-przewin{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.ib-tab{width:100%;border-collapse:collapse;font-size:var(--ib-t-s);background:var(--ib-papier)}
+.ib-tab th{text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--ib-szary);font-weight:600;padding:8px 10px;border-bottom:2px solid var(--ib-atrament);white-space:nowrap}
+.ib-tab td{padding:9px 10px;border-bottom:1px solid var(--ib-linia-2);vertical-align:top}
+.ib-tab .ib-num{text-align:right;font-variant-numeric:tabular-nums}
+.ib-tab .ib-nw{white-space:nowrap}
+.ib-tab tr.ib-klik{cursor:pointer}
+.ib-tab tr.ib-klik:hover td{background:var(--ib-tlo-3)}
+.ib-tab tr.ib-grupa td{background:var(--ib-tlo);font-weight:700;font-size:var(--ib-t-xs);text-transform:uppercase;letter-spacing:.06em;color:var(--ib-atrament-2);padding-top:14px}
+.ib-tab tr.ib-wyl td{color:var(--ib-blady)}
+.ib-tab tr.ib-zrobione td{background:var(--ib-ok-jasny)}
+.ib-karty{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:var(--ib-o3)}
+.ib-karta{background:var(--ib-papier);border:1px solid var(--ib-linia);padding:16px 18px}
+.ib-karta .ib-liczba{font-size:36px;font-weight:800;letter-spacing:-.03em;line-height:1;margin:6px 0 4px;font-variant-numeric:tabular-nums}
+
+/* ---------- 10. Szuflada (panel z prawej) i okno (na środku) ---------- */
+.ib-zaslona{position:fixed;inset:0;background:rgba(21,21,20,.28);z-index:50;opacity:0;pointer-events:none;transition:opacity .15s}
+.ib-zaslona.ib-otw{opacity:1;pointer-events:auto}
+.ib-szuflada{position:fixed;top:0;right:0;bottom:0;width:min(460px,100%);background:var(--ib-papier);z-index:51;border-left:2px solid var(--ib-atrament);transform:translateX(102%);transition:transform .18s ease-out;display:flex;flex-direction:column}
+.ib-szuflada.ib-otw{transform:none}
+.ib-okno{position:fixed;left:50%;top:50%;translate:-50% -50%;width:min(680px,94vw);max-height:90vh;background:var(--ib-papier);z-index:51;border-top:3px solid var(--ib-akcent);box-shadow:var(--ib-cien);display:none;flex-direction:column}
+.ib-okno.ib-otw{display:flex}
+.ib-sz-nag{position:relative;padding:20px 56px 16px 24px;border-bottom:1px solid var(--ib-linia)}
+.ib-sz-tytul{font-size:30px;font-weight:800;letter-spacing:-.03em;line-height:1.05;margin-top:6px}
+.ib-sz-pod{color:var(--ib-atrament-2);margin-top:4px}
+.ib-zamknij{position:absolute;top:14px;right:14px;width:38px;height:38px;border:1px solid var(--ib-linia);background:#fff;font-size:20px;line-height:1}
+.ib-zamknij:hover{border-color:var(--ib-atrament)}
+.ib-sz-tresc{padding:20px 24px;overflow:auto;flex:1}
+.ib-sz-stopka{padding:14px 24px;border-top:1px solid var(--ib-linia);display:flex;gap:10px;flex-wrap:wrap;background:var(--ib-papier)}
+.ib-meta{font-size:var(--ib-t-xs);color:var(--ib-szary);border-top:1px solid var(--ib-linia-2);padding-top:12px;margin-top:4px}
+
+/* ---------- 11. Bloki na osi czasu / w siatce (awizacja, zlecenie, blokada) ---------- */
+.ib-blok{position:relative;border-radius:var(--ib-promien);padding:6px 10px;font-size:15.5px;line-height:1.3;color:#fff;background:var(--ib-atrament);overflow:hidden}
+.ib-blok .ib-b1{font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-shadow:0 1px 2px rgba(0,0,0,.45)}
+.ib-blok .ib-b2{font-size:14px;opacity:.95;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-variant-numeric:tabular-nums;text-shadow:0 1px 2px rgba(0,0,0,.45)}
+.ib-blok.ib-zrobiony{background-image:repeating-linear-gradient(135deg,rgba(255,255,255,.38) 0 7px,rgba(255,255,255,.12) 7px 14px);box-shadow:inset 0 0 0 3px var(--ib-ok)}
+.ib-blok .ib-znak-ok{position:absolute;top:5px;right:6px;box-shadow:0 0 0 2px #fff}
+/* zakończone zlecenie produkcyjne (planer): przekreślone i wyszarzone */
+.ib-blok.ib-zakonczony{filter:grayscale(1);opacity:.55}
+.ib-blok.ib-zakonczony .ib-b1,.ib-blok.ib-zakonczony .ib-b2{text-decoration:line-through;text-decoration-thickness:2px}
+.ib-blok.ib-niedost{color:var(--ib-szary);background:#f0eee9 repeating-linear-gradient(45deg,transparent 0 6px,rgba(0,0,0,.05) 6px 8px)}
+.ib-blok.ib-przerwa{color:var(--ib-atrament-2);border:1px dashed #a9a59c;background:#efede7 repeating-linear-gradient(45deg,transparent 0 6px,rgba(0,0,0,.08) 6px 8px);font-size:14px}
+.ib-blok.ib-blokada{color:#8e2a1f;border:1px dashed rgba(192,57,43,.45);background:#f8eeec repeating-linear-gradient(45deg,transparent 0 6px,rgba(192,57,43,.13) 6px 8px);font-size:14px}
+.ib-teraz{height:0;border-top:2px solid var(--ib-akcent);position:relative}
+.ib-teraz::before{content:'';position:absolute;left:-1px;top:-5px;width:8px;height:8px;border-radius:50%;background:var(--ib-akcent)}
+
+/* ---------- 12. Telefon ---------- */
+@media (max-width:760px){
+  :root{--ib-margines:16px}
+  .ib-logowanie{grid-template-columns:1fr}
+  .ib-log-lewa{padding:28px 16px 24px;gap:22px}
+  .ib-log-lewa h1{font-size:46px;margin:8px 0 10px}
+  .ib-log-lead{font-size:15px}
+  .ib-mozaika{display:none}
+  .ib-log-logo{height:48px;margin-bottom:26px}
+  .ib-log-prawa{padding:24px 16px 40px}
+  .ib-top{padding-top:14px}
+  .ib-marka{font-size:24px}
+  .ib-top-logo{height:36px;padding-right:14px}
+  .ib-marka-wrap{gap:14px}
+  .ib-kto{gap:6px 16px}
+  .ib-zakladki{gap:20px;margin-top:12px}
+  .ib-okres{font-size:28px}
+  .ib-legenda{margin-left:0}
+  .ib-rzad2{grid-template-columns:1fr}
+  .ib-sz-tytul{font-size:26px}
+}
+
+/* ---------- 13. Wariant dużego ekranu (TV, hala) ---------- */
+/* <body class="ib ib-tv"> — te same komponenty, większe o ok. 25 % */
+.ib-tv{--ib-t-xs:15px;--ib-t-s:16px;--ib-t-m:19px;--ib-t-l:22px;--ib-t-h3:22px;--ib-t-h2:28px;--ib-t-h1:40px;--ib-wys-pola:52px}
+.ib-tv .ib-marka{font-size:36px}
+.ib-tv .ib-top-logo{height:60px}
